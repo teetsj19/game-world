@@ -1,0 +1,30 @@
+package classWork;
+
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.util.Random;
+//Jason Teets
+//Period H
+//May 12, 2016
+//Description: Connect Four
+
+public class ConnectFour extends JoeApplet implements KeyListener, MouseMotionListener
+{
+
+	//This will draw a start screen for the user to see.
+	public void drawStartScreen(Graphics art)
+	{
+		art.setFont(big);
+		setBackground(Color.orange);
+		art.setColor(Color.black);
+		art.drawString("Instructions:  Once you begin the game you will face the legendary DougBot in connect 4", 50,50);
+		art.drawString("You must click on the row where you want to drop a piece to place it",50,100);
+		art.drawString("First one to get four in a row wins",50,150);
+		art.drawString("Press enter to begin!",500, 350); 
+	}
+	
+
