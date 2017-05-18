@@ -1,0 +1,405 @@
+package classWork;
+
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.util.Random;
+//Jason Teets
+//Period H
+//May 12, 2016
+//Description: This game will allow you to have eleven shots at the basket.  Your success will be
+//based on a moving meter, dont't miss!
+
+public class JasonBasketball extends JoeApplet implements KeyListener, MouseMotionListener
+{
+	Random gen= new Random();//For the purpose of determining if a shot on yellow goes in
+	int score;
+	int ballx=225;
+	int bally=315;
+	int speedMeter=7;
+	int armx=235;
+	int army=390;
+	int armLength=25;
+	int armHeight=50;
+	int indicatorx=100;
+	int indicatory=625;
+	int meterLength=1150;
+	int greeny=625;
+	int yellowy=625;
+	int redx=100;
+	int redy=625;
+	int redLength=200;//Length of one red section
+	int yellowLength=250;//Length of one yellow section
+	int greenLength=250;
+	int yellowx=redx+redLength;
+	int greenx=yellowx+yellowLength;
+	int meterHeight=50;
+	int height=700;
+	int width=1350;
+	int [] xnet= {1040,940,977,1003};//ballx=385, ballx increase 568, ball peak at roughly 742,100
+	int [] ynet= {225,225, 300,300};//bally=315, ball pass through at 1028-953, 
+	int prob;//holds the value probability of getting a point on yellow
+	int chance=100;// this will determine the likelihood of a shot on yellow going in by helping calculate prob
+	int shotAttempts;//To count the number of attempts a user takes
+	int highScore;//This will store your high score for a session
+	Font big= new Font(Font.SERIF,Font.BOLD,30);
+	Color skinColor= new Color(255,222,173);
+	
+	//These solid objects will allow the meter to function
+	SolidObject indicator= new SolidObject();
+	SolidObject green= new SolidObject();
+	SolidObject yellow= new SolidObject();
+	SolidObject red= new SolidObject();
+	SolidObject ball= new SolidObject();
+	SolidObject backboard= new SolidObject();
+	
+	boolean shooting=false;
+	boolean showStartScreen = true;
+	boolean shotTerminated=false;
+	boolean meterOp;
+	boolean showEndScreen=false;
+	boolean shotGood;
+	boolean bank;
+	boolean shotBad;
+	
+	//This will establish the censors necessary for the game to function
+	public void init()
+	{
+		addKeyListener(this);
+		addMouseMotionListener(this);
+	}
+	
+	//This will draw the meter for the shooting game
+	public void drawMeter(Graphics art)
+	{
+		art.setColor(Color.red);
+		art.fillRect(redx, redy, meterLength, meterHeight);
+		art.setColor(Color.yellow);
+		art.fillRect(yellowx, yellowy, meterLength-redLength*2, meterHeight);
+		art.setColor(Color.green);
+		art.fillRect(greenx, greeny, greenLength, meterHeight);
+		green.makeSolidObject(greenx,greeny,greenLength, meterHeight);
+		yellow.makeSolidObject(yellowx, yellowy, yellowLength*2+greenLength, meterHeight);
+		red.makeSolidObject(redx, redy, meterLength, meterHeight);
+		
+	}
+	
+	//This will draw a start screen for the user to see.
+	public void drawStartScreen(Graphics art)
+	{
+		art.setFont(big);
+		setBackground(Color.orange);
+		art.setColor(Color.black);
+		art.drawString("Instructions:  Once you begin the game you will have 11 shots to become a legend.", 50,50);
+		art.drawString("Pressing the 1 key will begin the movement of that meter. Pressing the 2 key will stop it.",50,100);
+		art.drawString("The goal is to stop the indicator in the green for a sure score.",50,150);
+		art.drawString("Stopping in the yellow will give you a chance, and the red will mean a certain miss. You will",50,200);
+		art.drawString("You have unlimited time but only 11 shots to ascend to hoops greatness. Are you ready?",50,250);
+		art.drawString("Press enter to begin!",500, 350); 
+	}
+	
+	//This will draw the indicator to stop the meter
+	public void drawMeterIndicator(Graphics art)
+	{
+		art.setColor(Color.black);
+		art.fillRect(indicatorx, indicatory,10, 50);
+		indicator.makeSolidObject(indicatorx,indicatory, 10, 50);
+	}
+	
+	//This will draw the basket for the shooting game
+	public void drawBasket(Graphics art)
+	{
+		art.setColor(Color.blue);
+		art.fillRect(1200,200, 50, 400);
+		art.fillRect(1100,225, 100, 25);
+		art.setColor(Color.black);
+		art.drawString("S", 1212, 300);
+		art.drawString("T", 1212, 325);
+		art.drawString("R", 1212, 350);
+		art.drawString("E", 1212, 375);
+		art.drawString("A", 1212, 400);
+		art.drawString("K", 1212, 425);
+		art.drawString("S", 1212, 450);
+		art.fillRect(1050, 110, 50, 200);
+		art.setColor(Color.white);
+		art.fillPolygon(xnet,ynet, 4);
+		art.setColor(Color.orange);
+		art.drawLine(1050, 225, 940, 225);
+		art.setColor(Color.black);
+		backboard.makeSolidObject(1050,110,50,200);
+	}
+	
+	//This will draw the shooter
+	public void drawShooter(Graphics art)
+	{
+		art.setColor(Color.green);
+		art.fillRect(130, 575, 75, 25);
+		art.setColor(Color.white);
+		art.fillRect(130, 550, 30, 25);
+		art.setColor(Color.blue);
+		art.fillRect(130, 520, 30, 30);
+		art.fillRect(115, 420, 65, 100);
+		art.fillRect(180, 440, 80, 20);
+		art.setColor(skinColor);
+		art.fillRect(armx, army, armLength, armHeight);
+		art.fillOval(115, 370, 75, 50);
+		art.setColor(Color.blue);
+		art.fillRect(120, 375, 66, 10);
+		art.setColor(Color.black);
+		art.fillRect(170, 410, 10, 1);
+		art.fillOval(175, 390, 2, 2);
+		art.setColor(Color.orange);
+		art.fillOval(ballx, bally, 75, 75);
+		ball.makeSolidObject(ballx, bally, 75, 75);
+	}
+	
+	//This will reset the indicator after a basket is scored
+	public void reset()
+	{
+		if (bally>500)
+		{
+			{
+			indicatorx=100;
+			meterOp=true;
+			yellowx=yellowx+30;
+			greenx=greenx+12;
+			greenLength=greenLength-24;
+			redLength=redLength+30;
+			yellowLength=yellowLength-3;
+			chance=chance-5;
+			speedMeter=Math.abs(speedMeter);
+			ballx=225;
+			bally=315;
+			armx=235;
+			army=390;
+			armLength=25;
+			armHeight=50;
+			shotGood=false;
+			shotBad=false;
+			bank=false;
+				if (shotAttempts==11)
+				{
+					showEndScreen=true;
+				}
+			}
+		}
+	}
+	
+	//This will allow the meter to move
+	public void movement(Graphics art)
+	{
+		if(shooting)
+		{
+			indicatorx=indicatorx+speedMeter;
+			if (indicatorx>1239||indicatorx<101)
+			{
+				speedMeter=-speedMeter;
+			}
+		}
+		else if(shotTerminated)
+		{
+			shotAttempts=shotAttempts+1;
+			if (indicator.isCollidingWith(green))
+			{
+				score=score+1;
+				shotGood=true;
+				shotTerminated=false;
+			}
+			else if(indicator.isCollidingWith(yellow))
+			{
+				prob=gen.nextInt(chance)+1;
+				if (prob>=50)
+				{
+					score=score+1;
+					shotGood=true;
+				}
+				else
+				{
+					shotBad=true;
+				}
+				shotTerminated=false;
+			}
+			else 
+			{
+				shotTerminated=false;
+				shotBad=true;
+			}
+		}
+		if(shotGood)
+		{
+			shotMade(art);
+		}
+		else if(shotBad)
+		{
+			shotMissed(art);
+		}
+	}
+	
+	//This will handle the animations for the shot if it is made
+	public void shotMade(Graphics art)
+	{
+		armx=260;
+		army=440;
+		armLength=50;
+		armHeight=25;
+		if(!ball.isCollidingWith(backboard)&&!bank)
+		{
+			ballx=ballx+2;
+			bally=(int) (0.002397362900809*(ballx-742)*(ballx-742)+0.287683548097093*(ballx-742)-100);
+		}
+		else
+		{
+			bank=true;
+			ballx=ballx-1;
+			bally=bally+3;
+			art.setColor(Color.white);
+			art.fillPolygon(xnet,ynet,4);
+		}
+	}
+	
+	//This will run the animation if the shot is missed
+	public void shotMissed(Graphics art)
+	{
+		armx=260;
+		army=440;
+		armLength=50;
+		armHeight=25;
+		if(!ball.isCollidingWith(backboard)&&!bank)
+		{
+			ballx=ballx+2;
+			bally=(int) (0.002397362900809*(ballx-742)*(ballx-742)+0.287683548097093*(ballx-742)-150);
+		}
+		else
+		{
+			bank=true;
+			ballx=ballx-2;
+			bally=bally+2;
+		}
+	}
+	//This will draw the number of baskets the user has scored
+	public void drawScore(Graphics art)
+	{
+		art.setFont(big);
+		art.setColor(Color.black);
+		art.drawString("Score: "+score+"",25,40 );
+	}
+	
+	public void highScore()
+	{
+		if (score>highScore)
+		{
+			highScore=score;
+		}
+	}
+	
+	//This will produce an end screen for the game
+	public void endScreen(Graphics art)
+	{
+		art.setFont(big);
+		art.setColor(Color.black);
+		art.drawString("Game Over", 580, 275);
+		art.drawString("Final Score: "+score+"",575,350);
+		art.drawString("High Score: "+highScore+"", 575, 425);
+		art.drawString("To play again hit enter.", 520, 500);
+	}
+	
+	//This will reset the values of necessary ints when playing the game a second time
+	public void valueReset()
+	{
+		greenLength=250;
+		redLength=200;
+		yellowLength=250;
+		score=0;
+		shotAttempts=0;
+		chance=100;
+		speedMeter=7;
+		redx=100;
+		yellowx=redx+redLength;
+		greenx=yellowx+yellowLength;
+	}
+	
+	//This will carry out the game
+	public void paint(Graphics art)
+	{
+		setSize(width,height);
+		setFrameRate(200);
+		if (showStartScreen)
+		{
+			drawStartScreen(art);
+		}
+		else if (!showStartScreen&&!showEndScreen)
+		{
+			setBackground(Color.cyan);
+			drawBasket(art);
+			drawShooter(art);
+			drawMeter(art);
+			drawMeterIndicator(art);
+			movement(art);
+			reset();
+			drawScore(art);
+		}
+		else if(showEndScreen)
+		{
+			highScore();
+			endScreen(art);
+		}
+		repaint();
+	}
+	
+	
+	public void keyPressed(KeyEvent e)
+	{
+		int key= e.getKeyCode();
+		//The 1 key will be used to start the meter in game
+		if (key==e.VK_1&&!showStartScreen)
+		{
+			if (meterOp)
+			 shooting= true;
+		}
+		//The 2 key will be used to stop the mter in game
+		if (key==e.VK_2&&!showStartScreen)
+		{
+			if (shooting)
+			{
+				shotTerminated=true;
+				shooting=false;
+				meterOp=false;
+			}
+
+		}
+		//The enter key will be used to leave the start screen.
+		if (key==e.VK_ENTER)
+		{
+			if (showStartScreen)
+			{
+				showStartScreen=false;
+				meterOp=true;
+			}
+			else if (showEndScreen)
+			{
+				showStartScreen=true;
+				showEndScreen=false;
+				valueReset();
+			}
+		}
+		
+	}
+
+	public void keyReleased(KeyEvent arg0) {
+	}
+
+	public void keyTyped(KeyEvent e) 
+	{
+	
+	}
+
+	public void mouseDragged(MouseEvent arg0) {
+	}
+
+	public void mouseMoved(MouseEvent arg0) {
+	}
+
+}
