@@ -7,5 +7,5 @@ package APCS;
 
 public class ComputerConnectFourPlayer
 {
-asdfasdf
+  
 }
