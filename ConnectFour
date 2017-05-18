@@ -8,8 +8,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.Random;
 //Jason Teets
-//Period H
-//May 12, 2016
+//Period D
+//May 12, 2017
 //Description: Connect Four
 
 public class ConnectFour extends JoeApplet implements KeyListener, MouseMotionListener
@@ -19,6 +19,13 @@ public class ConnectFour extends JoeApplet implements KeyListener, MouseMotionLi
 	final int RED=1;
 	final int BLACK=2;
 	Font big= new Font(Font.SERIF,Font.BOLD,30);
+	private int height=700;
+	private int width=1350;
+	
+	priavte boolean showStartScreen;
+	private boolean showEndScreen;
+	
+	
 
 	//This will draw a start screen for the user to see.
 	public void drawStartScreen(Graphics art)
@@ -52,14 +59,7 @@ public class ConnectFour extends JoeApplet implements KeyListener, MouseMotionLi
 		}
 		else if (!showStartScreen&&!showEndScreen)
 		{
-			setBackground(Color.cyan);
-			drawBasket(art);
-			drawShooter(art);
-			drawMeter(art);
-			drawMeterIndicator(art);
-			movement(art);
-			reset();
-			drawScore(art);
+			
 		}
 		else if(showEndScreen)
 		{
