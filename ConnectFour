@@ -14,7 +14,10 @@ import java.util.Random;
 
 public class ConnectFour extends JoeApplet implements KeyListener, MouseMotionListener
 {
-	private int[] board;
+	private int[][] board;
+	final int EMPTY=0;
+	final int RED=1;
+	final int BLACK=2;
 
 	//This will draw a start screen for the user to see.
 	public void drawStartScreen(Graphics art)
@@ -26,6 +29,16 @@ public class ConnectFour extends JoeApplet implements KeyListener, MouseMotionLi
 		art.drawString("You must click on the row where you want to drop a piece to place it",50,100);
 		art.drawString("First one to get four in a row wins",50,150);
 		art.drawString("Press enter to begin!",500, 350); 
+	}
+	
+	public int[][] getBoard()
+	{
+		return board;
+	}
+	
+	public void setBoard(int [][] x)
+	{
+		board=x;
 	}
 	
 
