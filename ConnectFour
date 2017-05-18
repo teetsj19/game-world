@@ -42,4 +42,31 @@ public class ConnectFour extends JoeApplet implements KeyListener, MouseMotionLi
 		board=x;
 	}
 	
+		public void paint(Graphics art)
+	{
+		setSize(width,height);
+		setFrameRate(200);
+		if (showStartScreen)
+		{
+			drawStartScreen(art);
+		}
+		else if (!showStartScreen&&!showEndScreen)
+		{
+			setBackground(Color.cyan);
+			drawBasket(art);
+			drawShooter(art);
+			drawMeter(art);
+			drawMeterIndicator(art);
+			movement(art);
+			reset();
+			drawScore(art);
+		}
+		else if(showEndScreen)
+		{
+			highScore();
+			endScreen(art);
+		}
+		repaint();
+	}
+	
 
