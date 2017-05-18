@@ -19,7 +19,7 @@ public class ConnectFour extends JoeApplet implements KeyListener, MouseMotionLi
 	public void drawStartScreen(Graphics art)
 	{
 		art.setFont(big);
-		setBackground(Color.orange);
+		setBackground(Color.red);
 		art.setColor(Color.black);
 		art.drawString("Instructions:  Once you begin the game you will face the legendary DougBot in connect 4", 50,50);
 		art.drawString("You must click on the row where you want to drop a piece to place it",50,100);
