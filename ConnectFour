@@ -25,7 +25,7 @@ public class ConnectFour extends JoeApplet implements KeyListener, MouseMotionLi
 	priavte boolean showStartScreen;
 	private boolean showEndScreen;
 	
-	
+	ComputerConnectFourPlayer christopher= new ComputerConnectFourPlayer();
 
 	//This will draw a start screen for the user to see.
 	public void drawStartScreen(Graphics art)
@@ -37,16 +37,6 @@ public class ConnectFour extends JoeApplet implements KeyListener, MouseMotionLi
 		art.drawString("You must click on the row where you want to drop a piece to place it",50,100);
 		art.drawString("First one to get four in a row wins",50,150);
 		art.drawString("Press enter to begin!",500, 350); 
-	}
-	
-	public int[][] getBoard()
-	{
-		return board;
-	}
-	
-	public void setBoard(int [][] x)
-	{
-		board=x;
 	}
 	
 		public void paint(Graphics art)
