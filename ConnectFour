@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class ConnectFour extends JoeApplet implements KeyListener, MouseMotionListener
 {
+	private int[] board;
 
 	//This will draw a start screen for the user to see.
 	public void drawStartScreen(Graphics art)
