@@ -17,13 +17,20 @@ import java.util.Random;
 		final int BLACK=2;
 		Font big= new Font(Font.SERIF,Font.BOLD,30);
 		private int height=700;
-		private int width=1350;
+		private int width=1200;
 		
 		private boolean showStartScreen=true;
-		private boolean showEndScreen;
+		private boolean showEndScreen=false;
 		
 		ComputerConnectFourPlayer christopher= new ComputerConnectFourPlayer();
 
+		//This will establish the censors necessary for the game to function
+		public void init()
+		{
+			addKeyListener(this);
+			addMouseMotionListener(this);
+		}
+		
 		//This will draw a start screen for the user to see.
 		public void drawStartScreen(Graphics art)
 		{
@@ -36,6 +43,14 @@ import java.util.Random;
 			art.drawString("Press enter to begin!",500, 350); 
 		}
 		
+		public void drawBoard(Graphics art)
+		{
+			setBackground(Color.black);
+			art.setColor(Color.yellow);
+			art.fillRect(300, 110, 600 ,480);
+			
+		}
+		
 			public void paint(Graphics art)
 		{
 			setSize(width,height);
@@ -46,7 +61,7 @@ import java.util.Random;
 			}
 			else if (!showStartScreen&&!showEndScreen)
 			{
-				
+				drawBoard(art);
 			}
 			else if(showEndScreen)
 			{
@@ -68,8 +83,22 @@ import java.util.Random;
 			}
 
 			@Override
-			public void keyPressed(KeyEvent arg0) {
-				// TODO Auto-generated method stub
+			public void keyPressed(KeyEvent e) 
+			{
+				int key= e.getKeyCode();
+				if (key==e.VK_ENTER)
+				{
+					if (showStartScreen)
+					{
+						showStartScreen=false;
+					
+					}
+					else if (showEndScreen)
+					{
+						showStartScreen=true;
+						showEndScreen=false;
+					}
+				}
 				
 			}
 
