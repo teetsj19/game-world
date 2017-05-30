@@ -46,7 +46,7 @@ import java.util.Random;
 		public void drawBoard(Graphics art)
 		{
 			setBackground(Color.black);
-			art.setColor(Color.yellow);
+			art.setColor(Color.blue);
 			art.fillRect(300, 110, 600 ,480);
 			
 			
@@ -100,7 +100,29 @@ import java.util.Random;
 						showEndScreen=false;
 					}
 				}
-				
+				if(key==e.VK_1)
+				{
+					
+				}
+				if(key==e.VK_2)
+				{
+					
+				}if(key==e.VK_3)
+				{
+					
+				}if(key==e.VK_4)
+				{
+					
+				}if(key==e.VK_5)
+				{
+					
+				}if(key==e.VK_6)
+				{
+					
+				}if(key==e.VK_7)
+				{
+					
+				}
 			}
 
 			@Override
