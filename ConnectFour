@@ -49,6 +49,7 @@ import java.util.Random;
 			art.setColor(Color.yellow);
 			art.fillRect(300, 110, 600 ,480);
 			
+			
 		}
 		
 			public void paint(Graphics art)
