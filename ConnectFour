@@ -21,6 +21,7 @@ import java.util.Random;
 		private Coordinates[][] places= new Coordinates[6][7];
 		private int xCo= 305;
 		private int yCo= 116;
+		private boolean userTurn;
 		
 		
 		private boolean showStartScreen=true;
@@ -42,6 +43,10 @@ import java.util.Random;
 				}
 				yCo+=78;
 				xCo=305;
+			}
+			if(Math.random()>=0.5)
+			{
+				userTurn=true;
 			}
 		}
 		
@@ -82,6 +87,11 @@ import java.util.Random;
 				}
 			}
 			
+			
+		}
+		
+		public void move()
+		{
 			
 		}
 		
