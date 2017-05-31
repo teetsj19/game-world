@@ -11,14 +11,16 @@ import java.util.Random;
 
 	public class ConnectFour extends JoeApplet implements KeyListener, MouseMotionListener
 	{
-		private int[][] board=new int[7][6];
-		
+		private int[][] board=new int[6][7];
 		final int EMPTY=0;
 		final int RED=1;
-		final int BLACK=2;
+		final int YELLOW=2;
 		Font big= new Font(Font.SERIF,Font.BOLD,30);
 		private int height=700;
 		private int width=1200;
+		private Coordinates[][] places= new Coordinates[6][7];
+		private int xCo= 305;
+		private int yCo= 116;
 		
 		
 		private boolean showStartScreen=true;
@@ -31,6 +33,16 @@ import java.util.Random;
 		{
 			addKeyListener(this);
 			addMouseMotionListener(this);
+			for(int r=0; r<6; r++)
+			{
+				for(int c=0; c<7; c++)
+				{
+					places[r][c]= new Coordinates(xCo, yCo);
+					xCo+=85;
+				}
+				yCo+=78;
+				xCo=305;
+			}
 		}
 		
 		//This will draw a start screen for the user to see.
@@ -49,7 +61,26 @@ import java.util.Random;
 		{
 			setBackground(Color.black);
 			art.setColor(Color.blue);
-			art.fillRect(300, 110, 600 ,480);
+			art.fillRect(300, 110, 603 ,480);
+			for(int r=0; r<6; r++)
+			{
+				for(int c=0; c<7; c++)
+				{
+					if(board[r][c]==EMPTY)
+					{
+						art.setColor(Color.black);
+					}
+					else if(board[r][c]==RED)
+					{
+						art.setColor(Color.red);
+					}
+					else
+					{
+						art.setColor(Color.yellow);
+					}
+					art.fillOval(places[r][c].getX(), places[r][c].getY(),82 , 75);
+				}
+			}
 			
 			
 		}
