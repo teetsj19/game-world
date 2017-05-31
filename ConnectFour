@@ -11,13 +11,15 @@ import java.util.Random;
 
 	public class ConnectFour extends JoeApplet implements KeyListener, MouseMotionListener
 	{
-		private int[][] board;
+		private int[][] board=new int[7][6];
+		
 		final int EMPTY=0;
 		final int RED=1;
 		final int BLACK=2;
 		Font big= new Font(Font.SERIF,Font.BOLD,30);
 		private int height=700;
 		private int width=1200;
+		
 		
 		private boolean showStartScreen=true;
 		private boolean showEndScreen=false;
@@ -50,6 +52,11 @@ import java.util.Random;
 			art.fillRect(300, 110, 600 ,480);
 			
 			
+		}
+		
+		public int[][] getBoard()
+		{
+			return board;
 		}
 		
 			public void paint(Graphics art)
