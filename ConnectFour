@@ -101,6 +101,18 @@ import java.util.Random;
 			
 		}
 		
+		public int scanColumn(int n)
+		{
+			for(int x=5; x>=0; x++)
+			{
+				if(board[x][n]==0)
+				{
+					return x;
+				}
+			}
+			return -1;
+		}
+		
 		public void userMove()
 		{
 			
@@ -169,9 +181,9 @@ import java.util.Random;
 				{
 					for(int n=0; n<7; n++)
 					{
-						if(mouse.isCollidingWith(columns[n]))
+						if(mouse.isCollidingWith(columns[n])&&scanColumn(n)!=-1)
 						{
-							
+							placePiece(n, scanColumn(n));
 						}
 					}
 				}
