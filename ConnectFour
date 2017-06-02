@@ -18,14 +18,17 @@ import java.util.Random;
 		Font big= new Font(Font.SERIF,Font.BOLD,30);
 		private int height=700;
 		private int width=1200;
+		
 		private Coordinates[][] places= new Coordinates[6][7];
+		
 		private int xCo= 305;
 		private int yCo= 116;
 		private boolean userTurn;
-		
-		
 		private boolean showStartScreen=true;
 		private boolean showEndScreen=false;
+		
+		SolidObject[] columns = new SolidObject[7];
+		SolidObject mouse= new SolidObject();
 		
 		ComputerConnectFourPlayer christopher= new ComputerConnectFourPlayer();
 
@@ -47,6 +50,14 @@ import java.util.Random;
 			if(Math.random()>=0.5)
 			{
 				userTurn=true;
+			}
+			for(int n=0; n<7; n++)
+			{
+				columns[n]= new SolidObject();
+			}
+			for(int n=0; n<7; n++)
+			{
+				columns[n].makeSolidObject(places[0][n].getX(), 100, 82, 500);
 			}
 		}
 		
@@ -131,8 +142,9 @@ import java.util.Random;
 			}
 
 			@Override
-			public void mouseMoved(MouseEvent arg0) {
-				// TODO Auto-generated method stub
+			public void mouseMoved(MouseEvent e) 
+			{
+				mouse.makeSolidObject(e.getX(), e.getY(), 1, 1);
 				
 			}
 
@@ -153,29 +165,17 @@ import java.util.Random;
 						showEndScreen=false;
 					}
 				}
-				if(key==e.VK_1)
+				if(key==e.VK_LEFT)
 				{
-					
+					for(int n=0; n<7; n++)
+					{
+						if(mouse.isCollidingWith(columns[n]))
+						{
+							
+						}
+					}
 				}
-				if(key==e.VK_2)
-				{
-					
-				}if(key==e.VK_3)
-				{
-					
-				}if(key==e.VK_4)
-				{
-					
-				}if(key==e.VK_5)
-				{
-					
-				}if(key==e.VK_6)
-				{
-					
-				}if(key==e.VK_7)
-				{
-					
-				}
+
 			}
 
 			@Override
