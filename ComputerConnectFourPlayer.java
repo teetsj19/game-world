@@ -85,7 +85,7 @@ public class ComputerConnectFourPlayer
 	
 	public void randomMove()
 	{
-		however the hell jason expects this piece of shit to move using the randomly generated num
+		
 	}
 	
 	public void move()
