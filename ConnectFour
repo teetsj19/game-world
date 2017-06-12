@@ -108,9 +108,22 @@ import java.util.Random;
 				if(board[x][n]==0)
 				{
 					return x;
+
 				}
 			}
 			return -1;
+		}
+		
+		public void placePiece(int n, int x)
+		{
+			if(userTurn)
+			{
+				board[n][x]=RED;
+			}
+			else
+			{
+				board [n][x]=YELLOW;
+			}
 		}
 		
 		public void userMove()
@@ -157,7 +170,6 @@ import java.util.Random;
 			public void mouseMoved(MouseEvent e) 
 			{
 				mouse.makeSolidObject(e.getX(), e.getY(), 1, 1);
-				
 			}
 
 			@Override
@@ -177,18 +189,20 @@ import java.util.Random;
 						showEndScreen=false;
 					}
 				}
-				if(key==e.VK_LEFT)
+				if(key==e.VK_SPACE)
 				{
 					for(int n=0; n<7; n++)
 					{
 						if(mouse.isCollidingWith(columns[n])&&scanColumn(n)!=-1)
 						{
-							placePiece(n, scanColumn(n));
+							
+							placePiece(scanColumn(n),n);
 						}
 					}
 				}
 
 			}
+
 
 			@Override
 			public void keyReleased(KeyEvent arg0) {
